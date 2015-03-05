@@ -38,12 +38,28 @@ class TicketController extends Controller {
 		$model = Ticket::findOne($this->ticket_id);
 		if (Yii::$app->request->isAjax) {
 			$model->vote($_GET['type']);
-			$ret = ['rating' => $model->votes , 'errors' => $model->errors];
+			$ret = [
+				'rating' => $model->rating , 
+				'remaining' => \app\models\Votes::getRemaining() , 
+				'errors' => $model->errors,
+				];
 			return json_encode($ret);
+		}
+		$comment = new \app\models\Comments();
+		$comments = \app\models\Comments::find()->where(['ticket_id'=>$model->id])->all();
+		if (Yii::$app->request->post()) {
+			$comment->setAttributes(Yii::$app->request->post());
+			$comment->ticket_id = $model->id;
+			if ($comment->addComment()){
+				return $this->refresh();
+			} else {
+				$this->errors = $comment->errors;
+			}
 		}
 		return $this->render('index',[
 			'ticket_id' => $this->ticket_id,
 			'model' => $model,
+			'comments' => $comments,
 		]);
 	}
 }

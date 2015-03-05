@@ -25,7 +25,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'Tickets',
+                'brandLabel' => 'Tickets <i title="Votes" id="remaining-votes" class="badge">'.$this->context->remainingVotes.'</i>',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',

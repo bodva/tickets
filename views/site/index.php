@@ -15,6 +15,8 @@ $this->title = 'Tickets List App';
 </style>
 <div class="site-index">
 	<h1>Ticket sytem</h1>
+	<span>you have 10 votes for voting for any tickets</span>
+	<br/><br/>
 	<div class="row">
 		<div class="col-md-1">
 			<a href="/ticket/add" class="btn btn-primary">Add ticket</a>
@@ -35,11 +37,11 @@ $this->title = 'Tickets List App';
 				</tr>
 				<?php foreach($list as $model): ?>
 				<tr>
-					<td><i class="glyphicon glyphicon-arrow-up" onclick="upvote(<?= $model->id; ?>);"></i><i class="glyphicon glyphicon-arrow-down" onclick="downvote(<?= $model->id; ?>);"></i></td>
+					<td><i class="glyphicon glyphicon-arrow-up <?php if (in_array($model->id, $votesUp)) { echo 'active';} ?>" onclick="upvote(<?= $model->id; ?>);"></i><i class="glyphicon glyphicon-arrow-down <?php if (in_array($model->id, $votesDown)) { echo 'active';} ?>" onclick="downvote(<?= $model->id; ?>);"></i></td>
 					<td><?= Html::a($model->id,['ticket/','id'=>$model->id]);?></td>
 					<td><?= Html::a($model->title,['ticket/','id'=>$model->id]);?></td>
 					<td><?= $model->author; ?></td>
-					<td id="col-rating-<?= $model->id ?>"><?= $model->votes; ?></td>
+					<td id="col-rating-<?= $model->id ?>"><?= $model->rating; ?></td>
 				</tr>
 				<?php endforeach; ?>
 			</table>

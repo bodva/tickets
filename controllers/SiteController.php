@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Ticket;
+use app\models\Votes;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -50,9 +51,13 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-		$list = Ticket::find()->orderBy(['votes'=> SORT_DESC])->all();
+		$list = Ticket::find()->orderBy(['rating'=> SORT_DESC])->all();
+        $votesUp = Votes::getVotedUp();
+        $votesDown = Votes::getVotedDown();
         return $this->render('index',[
-			'list' => $list
+			'list' => $list,
+            'votesUp' => $votesUp,
+            'votesDown' => $votesDown,
 		]);
     }
 
