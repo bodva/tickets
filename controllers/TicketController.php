@@ -29,7 +29,7 @@ class TicketController extends Controller {
 			}
 		}
 		return $this->render('add',
-			['errors' => $model->errors]
+			['errors' => (isset($model->errors))?($model->errors):([])]
 		);
 	}
 
