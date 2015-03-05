@@ -13,6 +13,8 @@ class Votes extends ActiveRecord{
 
 
     static function getVote($ticket_id = 0, $action = '') {
+        if (!session_id())
+            session_start();
         $session_id = session_id () ;
         $vote = Votes::findOne(['session_id' => $session_id, 'ticket_id' => $ticket_id, 'action' => $action]);
         if (!$vote) {
@@ -56,14 +58,16 @@ class Votes extends ActiveRecord{
     }
 
     static public function getRemaining() {
-        session_start(); 
+        if (!session_id())
+            session_start();
         $session_id = session_id();
         $list = self::find()->where(['session_id' => $session_id])->all();
         return 10 - (int)count($list);
     }
 
     static function getVotedUp() {
-        session_start();
+        if (!session_id())
+            session_start();
         $session_id = session_id();
         $list = self::find()->where(['session_id' => $session_id,'action' => 'up'])->all();
         $ids = [];
@@ -74,7 +78,8 @@ class Votes extends ActiveRecord{
     }
 
     static function getVotedDown() {
-        session_start();
+        if (!session_id())
+            session_start();
         $session_id = session_id();
         $list = self::find()->where(['session_id' => $session_id,'action' => 'down'])->all();
         $ids = [];

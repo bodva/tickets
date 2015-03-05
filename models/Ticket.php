@@ -22,7 +22,8 @@ class Ticket extends ActiveRecord {
 
 	public function add ($post) {
 		$this->setAttributes($post);
-		session_start();
+		if (!session_id())
+            session_start();
 		$this->session_id = session_id();
 		try {
 			$this->save();
