@@ -13,6 +13,8 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
+    var $remainingVotes = 10;
+
     public function behaviors()
     {
         return [
